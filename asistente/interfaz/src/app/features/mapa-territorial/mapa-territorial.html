@@ -1,0 +1,81 @@
+<section class="territorial">
+  <header class="territorial-head">
+    <div>
+      <h2>Análisis territorial</h2>
+      <p class="nota">{{ datos()?.nota || 'La población corresponde al CNPV 2018. Los contratos son de septiembre de 2026 y se refieren a la sede de la entidad contratante, no al lugar de ejecución.' }}</p>
+    </div>
+    <label class="selector">
+      Indicador
+      <select [value]="indicador()" (change)="indicador.set($any($event.target).value)">
+        <option *ngFor="let ind of indicadores" [value]="ind.id">{{ ind.label }}</option>
+      </select>
+    </label>
+  </header>
+
+  <p class="estado" *ngIf="cargando()">Cargando indicadores…</p>
+  <p class="estado error" *ngIf="error()">{{ error() }}</p>
+
+  <div class="territorio-grid" *ngIf="geojson() && datos()">
+    <div class="mapa-card">
+      <app-mapa-colombia
+        [geojson]="geojson()"
+        [valores]="valoresMapa()"
+        [seleccionado]="seleccionado()?.codigo_dane || null"
+        (seleccionar)="onSeleccionar($event)"
+        (cursor)="onCursor($event)"
+      ></app-mapa-colombia>
+      <div class="leyenda">
+        <strong>{{ etiquetaIndicador() }}</strong>
+        <div class="leyenda-rampa">
+          <span *ngFor="let t of tramosLeyenda()" class="swatch" [style.background]="t.color" [title]="t.texto"></span>
+        </div>
+        <div class="leyenda-extremos">
+          <span>Menor</span>
+          <span>Mayor</span>
+        </div>
+        <p class="leyenda-nd"><span class="swatch nd"></span> Sin dato</p>
+      </div>
+    </div>
+
+    <aside class="detalle" *ngIf="seleccionado() as d">
+      <h3>{{ d.nombre_departamento }}</h3>
+      <p class="codigo">Código DANE {{ d.codigo_dane }}</p>
+      <dl>
+        <dt>Población total (2018)</dt>
+        <dd>{{ formato(d.poblacion_total) }}</dd>
+        <dt>Hombres</dt>
+        <dd>{{ formato(d.total_hombres) }}</dd>
+        <dt>Mujeres</dt>
+        <dd>{{ formato(d.total_mujeres) }}</dd>
+        <dt>Contratos (sep. 2026)</dt>
+        <dd>{{ formato(d.n_contratos) }}</dd>
+        <dt>Asignados por código</dt>
+        <dd>{{ formato(d.n_contratos_por_codigo) }}</dd>
+        <dt>Asignados por nombre</dt>
+        <dd>{{ formato(d.n_contratos_por_nombre) }}</dd>
+        <dt>Valor contratado</dt>
+        <dd>{{ formato(d.valor_total, 'cop') }}</dd>
+        <dt>Contratos por 100.000 hab.</dt>
+        <dd>{{ formato(d.contratos_por_100k, 'decimal') }}</dd>
+        <dt>Valor por habitante</dt>
+        <dd>{{ formato(d.valor_por_habitante, 'cop') }}</dd>
+      </dl>
+    </aside>
+    <aside class="detalle vacio" *ngIf="!seleccionado()">
+      <h3>Departamento</h3>
+      <p>Seleccione un departamento en el mapa para ver sus indicadores.</p>
+    </aside>
+  </div>
+
+  <p class="cobertura" *ngIf="datos() as r">
+    Periodo {{ r.periodo }}. Contratos: {{ formato(r.cobertura.total) }}.
+    Por código DANE: {{ formato(r.cobertura.por_codigo) }}.
+    Por nombre de departamento: {{ formato(r.cobertura.por_nombre) }}.
+    Sin departamento identificable: {{ formato(r.cobertura.sin_departamento) }}.
+  </p>
+</section>
+
+<div class="tooltip" *ngIf="tooltip() as t" [style.left.px]="t.x + 12" [style.top.px]="t.y + 12">
+  <strong>{{ t.depto.nombre_departamento }}</strong>
+  <span>{{ etiquetaIndicador() }}: {{ formatoValorTooltip(t.depto) }}</span>
+</div>

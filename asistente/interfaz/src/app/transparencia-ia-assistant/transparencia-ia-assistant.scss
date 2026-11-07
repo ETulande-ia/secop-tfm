@@ -1,0 +1,143 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f4f6f8;
+}
+
+.app-tabs {
+  display: flex;
+  gap: 0.4rem;
+  width: min(1280px, calc(100% - 2rem));
+  margin: 0 auto 0.85rem;
+}
+
+.app-tabs button {
+  border: 0;
+  background: #fff;
+  color: #4b5563;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.app-tabs button.active {
+  background: #c62828;
+  color: #fff;
+}
+
+.app-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+  gap: 1.25rem;
+  width: min(1280px, calc(100% - 2rem));
+  margin: 0 auto 1rem;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.app-body.mapa {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.mapa-panel {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: min(72vh, 820px);
+}
+
+.mapa-panel app-mapa-territorial {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.context-hints {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  height: fit-content;
+}
+
+.context-hints h2 {
+  font-size: 0.95rem;
+  margin: 0 0 0.85rem;
+  color: #c62828;
+}
+
+.hint-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.6rem;
+  border-left: 4px solid #c62828;
+}
+
+.hint-card:last-child {
+  margin-bottom: 0;
+}
+
+.hint-card strong {
+  display: block;
+  font-size: 0.82rem;
+  margin-bottom: 0.2rem;
+  color: #1f2937;
+}
+
+.hint-card p {
+  font-size: 0.82rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.chat-panel {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: min(72vh, 820px);
+}
+
+.chat-panel[hidden],
+.mapa-panel[hidden],
+.context-hints[hidden] {
+  display: none !important;
+}
+
+.chat-panel app-chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .app-body {
+    grid-template-columns: 1fr;
+    width: calc(100% - 1.5rem);
+  }
+
+  .chat-panel {
+    min-height: 70vh;
+  }
+}

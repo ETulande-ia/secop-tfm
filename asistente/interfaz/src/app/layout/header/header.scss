@@ -1,0 +1,59 @@
+.app-header {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-bottom: 4px solid #c62828;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.header-layout {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.logo-area img {
+  width: 40px;
+  height: 40px;
+}
+
+.header-content {
+  max-width: 920px;
+}
+
+.app-header h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.35;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #c62828;
+  background: #fdecea;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 720px) {
+  .app-header h1 {
+    font-size: 1.15rem;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+  }
+}

@@ -1,0 +1,12 @@
+.env
+.venv/
+venv/
+.sync/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+notebooks/salidas/
+node_modules/
+dist/
+.angular/
+out-tsc/

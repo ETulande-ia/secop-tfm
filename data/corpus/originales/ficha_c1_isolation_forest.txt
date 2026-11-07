@@ -1,0 +1,59 @@
+# Ficha metodológica — C1 + Isolation Forest
+
+**Periodo:** septiembre de 2026  
+**Fuente:** contratos electrónicos de SECOP II  
+**Modelo:** Isolation Forest
+
+## 1. Objetivo
+
+El modelo identifica contratos con comportamientos estadísticamente atípicos a partir de su valor económico y modalidad de contratación. Una puntuación elevada no representa evidencia de fraude, ilegalidad o irregularidad contractual.
+
+## 2. Datos utilizados
+
+Se analizaron 82.964 contratos correspondientes a septiembre de 2026. De estos, 82.457 fueron aptos para el modelo y 507 se excluyeron: 506 con valor cero y uno con valor superior a un billón de pesos.
+
+Los registros excluidos se conservan por separado, sin imputación ni puntuación de anomalía.
+
+## 3. Variables del modelo
+
+La configuración C1 utiliza:
+
+- **Valor transformado:** logaritmo natural de uno más el valor del contrato (`log1p_valor`).
+- **Valor relativo a la modalidad:** diferencia respecto a la mediana del valor transformado dentro de cada modalidad.
+- **Modalidad de contratación:** seis modalidades principales y una categoría adicional denominada «otras».
+
+Las variables numéricas se escalan mediante RobustScaler. No se incluyen el plazo de ejecución ni el volumen de contratación por entidad.
+
+## 4. Configuración de Isolation Forest
+
+Se utiliza scikit-learn 1.3.1, con 200 estimadores, semilla aleatoria 42, contaminación 0,05 y tamaño de muestra automático.
+
+La puntuación `score_if` corresponde a `-decision_function`: cuanto mayor sea su valor, mayor será la atipicidad estadística.
+
+Los contratos se ordenan de mayor a menor puntuación, con desempate por identificador. Se destacan los primeros 825 contratos (top 1 %) y los primeros 4.123 (top 5 %).
+
+## 5. Controles complementarios
+
+Se utilizan dos indicadores independientes: el ranking global por valor económico transformado y el percentil 99 por modalidad, que identifica 828 contratos.
+
+El top 5 % de Isolation Forest comparte 2.496 contratos con el top 5 % del ranking económico, equivalente a una coincidencia del 60,5 %.
+
+## 6. Selección del modelo
+
+Se seleccionó C1 frente a C2 y C3 porque estas últimas configuraciones presentaron una concentración elevada de registros con plazos inválidos entre los contratos más atípicos (51,4 % en el top 1 %).
+
+C1 reduce la influencia de este problema de calidad de datos. LOF tampoco se seleccionó debido a su sensibilidad al número de vecinos.
+
+## 7. Resultados
+
+La versión `c1_if_v1` genera puntuaciones para 82.457 contratos y documenta 507 exclusiones.
+
+El contrato con mayor puntuación es `CO1.PCCNTR.9673418`, de régimen especial (con ofertas), con valor de $79.008.765.934 y `score_if` de 0,098194.
+
+## 8. Limitaciones
+
+El análisis comprende únicamente septiembre de 2026 y no dispone de etiquetas verificadas de fraude. Por tanto, no permite calcular precisión ni AUC de detección de fraude.
+
+La contratación directa representa el 79,3 % del universo, pero el 5,8 % del top 5 % del modelo. Esta diferencia debe considerarse al interpretar los resultados.
+
+El modelo no incorpora datos del DANE. Sus resultados son señales estadísticas para orientar análisis posteriores, no conclusiones jurídicas.

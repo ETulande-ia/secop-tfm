@@ -1,0 +1,45 @@
+<div class="app-shell">
+  <app-header></app-header>
+  <nav class="app-tabs" aria-label="Secciones">
+    <button type="button" [class.active]="vista() === 'chat'" (click)="vista.set('chat')">Asistente</button>
+    <button type="button" [class.active]="vista() === 'mapa'" (click)="vista.set('mapa')">Análisis territorial</button>
+  </nav>
+  <div class="app-body" [class.mapa]="vista() === 'mapa'">
+    <aside class="context-hints" [hidden]="vista() !== 'chat'">
+      <h2>¿Qué puedes preguntar?</h2>
+
+      <div class="hint-card">
+        <strong>Bogotá</strong>
+        <p>¿Cuánto se contrató en Bogotá?</p>
+      </div>
+
+      <div class="hint-card">
+        <strong>Entidades</strong>
+        <p>¿Cuáles fueron las entidades con mayor contratación?</p>
+      </div>
+
+      <div class="hint-card">
+        <strong>Modalidades</strong>
+        <p>¿Qué modalidades de contratación se utilizaron?</p>
+      </div>
+
+      <div class="hint-card">
+        <strong>Contratos atípicos</strong>
+        <p>¿Cuáles son los contratos con comportamientos atípicos?</p>
+      </div>
+
+      <div class="hint-card">
+        <strong>Explicación</strong>
+        <p>¿Por qué se considera atípico un contrato?</p>
+      </div>
+    </aside>
+
+    <section class="chat-panel" [hidden]="vista() !== 'chat'">
+      <app-chat></app-chat>
+    </section>
+    <section class="mapa-panel" [hidden]="vista() !== 'mapa'">
+      <app-mapa-territorial></app-mapa-territorial>
+    </section>
+  </div>
+  <app-footer></app-footer>
+</div>

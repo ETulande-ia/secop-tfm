@@ -1,0 +1,216 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+:host.en-chat {
+  flex: none;
+  height: auto;
+}
+
+:host.en-chat .territorial {
+  height: auto;
+  padding: 0.4rem 0 0;
+}
+
+.territorial {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  min-height: 0;
+  padding: 1rem 1.15rem 1.1rem;
+}
+
+.territorial-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #1f2937;
+}
+
+.nota {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #6b7280;
+  max-width: 46rem;
+}
+
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.selector select {
+  min-width: 16rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #1f2937;
+  background: #fff;
+}
+
+.territorio-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 1rem;
+}
+
+.mapa-card,
+.detalle {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.mapa-card {
+  padding: 0.6rem 0.6rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+
+app-mapa-colombia {
+  flex: none;
+  height: 560px;
+}
+
+.leyenda {
+  padding: 0.35rem 0.5rem 0;
+  font-size: 0.78rem;
+  color: #4b5563;
+}
+
+.leyenda-rampa {
+  display: flex;
+  margin-top: 0.35rem;
+  border-radius: 6px;
+  overflow: hidden;
+  width: min(220px, 100%);
+}
+
+.swatch {
+  height: 12px;
+  flex: 1;
+  display: inline-block;
+}
+
+.leyenda-extremos {
+  display: flex;
+  justify-content: space-between;
+  width: min(220px, 100%);
+  font-size: 0.72rem;
+  color: #6b7280;
+  margin-top: 0.15rem;
+}
+
+.leyenda-nd {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0;
+}
+
+.swatch.nd {
+  width: 12px;
+  flex: none;
+  background: #e5e7eb;
+  border-radius: 2px;
+}
+
+.detalle {
+  padding: 1rem 1.05rem;
+  height: fit-content;
+}
+
+.detalle h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.codigo {
+  margin: 0.2rem 0 0.8rem;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.detalle.vacio p {
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+dl {
+  margin: 0;
+}
+
+dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #6b7280;
+  margin-top: 0.55rem;
+}
+
+dd {
+  margin: 0.1rem 0 0;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cobertura,
+.estado {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.estado.error {
+  color: #c62828;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 20;
+  background: #111827;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.78rem;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 240px;
+}
+
+@media (max-width: 900px) {
+  .territorio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mapa-card {
+    min-height: 420px;
+  }
+}

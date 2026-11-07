@@ -1,0 +1,84 @@
+<div class="chat">
+
+  <div class="messages" #messagesContainer>
+
+    <div
+      *ngFor="let m of messages()"
+      class="msg"
+      [class.user]="m.role === 'user'"
+      [class.assistant]="m.role === 'assistant'"
+    >
+      <markdown [data]="m.text"></markdown>
+    </div>
+
+    <div class="result-block" *ngIf="columnas().length">
+      <div class="result-label">Resultados</div>
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th *ngFor="let col of columnas()">{{ col.label }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of lastData()">
+              <td *ngFor="let col of columnas()" [class.num]="col.tipo !== 'texto'">
+                {{ formatear(row[col.key], col.tipo) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="chart-container" *ngIf="esGrafico()">
+      <div class="chart-header">{{ tituloGrafico() }}</div>
+      <app-chart-view
+        [data]="lastData()!"
+        [spec]="lastVisualization()!"
+      ></app-chart-view>
+      <p class="chart-note" *ngIf="notaGrafico()">{{ notaGrafico() }}</p>
+    </div>
+
+    <div class="mapa-chat" *ngIf="esMapa()">
+      <app-mapa-territorial
+        [compacto]="true"
+        [indicadorInicial]="indicadorMapa()"
+        [codigoDaneInicial]="codigoMapa()"
+      ></app-mapa-territorial>
+    </div>
+
+  </div>
+
+  <div class="composer">
+    <div class="rag-bar">
+      <span class="rag-label" id="rag-mode-label">Recuperación documental</span>
+      <div class="rag-modes" role="radiogroup" aria-labelledby="rag-mode-label">
+        <button
+          *ngFor="let op of opcionesRag"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="modoRag() === op.id"
+          [class.active]="modoRag() === op.id"
+          (click)="modoRag.set(op.id)"
+        >
+          {{ op.etiqueta }}
+        </button>
+      </div>
+      <p class="rag-hint">{{ ayudaModo() }}</p>
+      <p class="rag-diag" *ngIf="lastRuta()">
+        Última respuesta: modo {{ lastModoRag() }} · ruta {{ lastRuta() }}
+      </p>
+    </div>
+    <div class="input">
+      <input
+        [value]="input()"
+        (input)="input.set($any($event.target).value)"
+        (keyup.enter)="send()"
+        placeholder="Escribe tu pregunta"
+      />
+      <button (click)="send()">Enviar</button>
+    </div>
+  </div>
+
+</div>
